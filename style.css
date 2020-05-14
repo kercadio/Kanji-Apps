@@ -1,0 +1,24 @@
+body {
+  background-image: url("Css_Images/test.webp");
+    color: white;
+    font-family: 'Roboto Slab', serif;
+  }
+
+  .header {
+    padding: 10px;
+    text-align: center;
+    color:white;
+    font-size: 30px;
+  }
+  .test {
+    max-width: 600px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border: 2px solid #EEE;
+    margin: auto;
+    max-width: 500px;
+    padding: 10px;
+    background-color:black;
+  }
