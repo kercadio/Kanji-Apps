@@ -18,7 +18,50 @@ body {
     box-sizing: border-box;
     border: 2px solid #EEE;
     margin: auto;
-    max-width: 500px;
+    max-width: 600px;
     padding: 10px;
     background-color:black;
+  }
+
+  .Kanji-romanji{
+    color: white;
+    font-size: 25px;
+  }
+
+  #myProgress {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    border: 2px solid #EEE;
+    margin: auto;
+    max-width: 600px;
+    padding: 10px;
+ 
+    width: 100%;
+    background-color: black;
+  }
+  
+  #myBar {
+    width: 0%;
+    height: 20px;
+    background-color: white;
+  }
+
+  .button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+  .button5 {
+    background-color: white;
+    color: black;
+    border: 2px solid #555555;
   }
