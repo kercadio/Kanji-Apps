@@ -37,3 +37,7 @@
         <div id="myBar"></div>
     </div>
 </body>
+
+<script src = 'script.js'></script>
+<script src = 'script_varible.js'></script>
+</html>
