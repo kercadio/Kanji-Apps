@@ -1,43 +1,106 @@
-<html>
-<link href="style.css" rel="stylesheet">
-<head>
-    <meta charset="UTF-8">
-</head>
-    
-<body>
-    <div class="header">
-        <h1>Learn Japenese !!! </h1>
-        <p>Test Kanji</p>
-    </div> 
+var tabKanjiFinal, rdnNumber, progress_bar;
 
-    <div class = "test">
-        <form action="will see later">
-            <input type="checkbox" name="Lesson" value="treize">Lesson 13<br>
-            <input type="checkbox" name="Lesson" value="quatorze">Lesson 14<br>
-            <input type="checkbox" name="Lesson" value="quinze">Lesson 15<br>
-        </form>            
-    </div>
+document.querySelector('.start-btn').addEventListener('click', function (){
+    document.getElementById("myBar").style.width = "0%";
+    var Lesson = document.forms[0];
+    var tabtest = [];
+    var i;
+    plop = 0
+    tabKanjiReview=[];
 
-    <div class = "test" id="texte">
-        <button class="button button5 start-btn"><i class=""></i>New game</button>
-        <div class="Kanji-romanji" id="romanji">Ca arrive</div>
-    </div>
+    for (i = 0; i < Lesson.length; i++) {
+      if (Lesson[i].checked) {
+        tabtest = tabtest.concat(tabIntermediate[i])}
+    }
+    tabKanjiFinal = tabtest;
+    progress_bar = tabKanjiFinal.length;
+    incr_progress = 100 / progress_bar;
+    Alea();
+})
 
-    <div class = "test" id = "image">
-        <button class="button button5 result-btn"><i class=""></i>Show result</button>
-        <img src="" alt="Kanji_image" class="Kanji_image">
-    </div>
+document.querySelector('.next-btn').addEventListener('click',function (){
+  move(incr_progress);
+  tabKanjiFinal.splice(rdnNumber,1);
 
-    <div class = "test">
-        <button class="button button5 addReview-btn"><i class=""></i>Wrong</button>
-        <button class="button button5 next-btn"><i class=""></i>Next</button>
-    </div>
+  if (tabKanjiFinal.length!==0) {
+    document.querySelector('.Kanji_image').style.display = 'none';
+    Alea();
+  }
+  else if (tabKanjiFinal.length==0 && tabKanjiReview.length!==0) {
+    document.querySelector('.Kanji_image').style.display = 'none';
+    reviewKanji();
+  }
+  else {
+    alert("pls click nex game");  
+    console.log('There are no Knaji for review');
+  }
+})
 
-    <div id="myProgress">
-        <div id="myBar"></div>
-    </div>
-</body>
+document.querySelector('.result-btn').addEventListener('click',function print(){
+    var rdnImage = tabKanjiFinal[rdnNumber].Path;
+    var Kanji_ImageDOM = document.querySelector('.Kanji_image')
+    Kanji_ImageDOM.style.display = 'block';
+    Kanji_ImageDOM.src = rdnImage
+})
 
-<script src = 'script.js'></script>
-<script src = 'script_varible.js'></script>
-</html>
+function Alea(){
+    rdnNumber = Math.floor(Math.random()*tabKanjiFinal.length);
+    var rdnRomaji = 'Do the kanji for ' + tabKanjiFinal[rdnNumber].Romaniji;
+    document.getElementById ('romanji').innerHTML = rdnRomaji
+}
+
+var plop=0;
+function move(valu) {
+    var elem = document.getElementById("myBar");
+    console.log(elem.style.width);
+    if (elem.style.width != "100%"){
+      console.log("test");
+      plop = plop + valu;
+      elem.style.width = plop + "%";
+    }
+}
+
+var tabKanjiReview = []; //Code Pol
+function reviewKanji(){
+  var reviewRoamnji = 'Do the kanji for ' + tabKanjiReview[0].Romaniji;
+  document.getElementById ('romanji').innerHTML = reviewRoamnji
+}
+
+document.querySelector('.result-btn').addEventListener('click',function print(){
+  if (tabKanjiFinal.length!==0) {
+    var rdnImage = tabKanjiFinal[rdnNumber].Path;
+    var Kanji_ImageDOM = document.querySelector('.Kanji_image')
+    Kanji_ImageDOM.style.display = 'block';
+    Kanji_ImageDOM.src = rdnImage
+  }
+  else {
+  var Kanji_ImageDOM = document.querySelector('.Kanji_image')
+  Kanji_ImageDOM.style.display = 'block';
+  Kanji_ImageDOM.src = tabKanjiReview[0].Path;
+  tabKanjiReview.shift()
+  }
+})
+
+function Alea(){
+  rdnNumber = Math.floor(Math.random()*tabKanjiFinal.length);
+  var rdnRomaji = 'Do the kanji for ' + tabKanjiFinal[rdnNumber].Romaniji;
+  document.getElementById ('romanji').innerHTML = rdnRomaji
+}
+
+document.querySelector('.addReview-btn').addEventListener('click',function () {
+  tabKanjiReview.push(tabKanjiFinal[rdnNumber]);
+  tabKanjiFinal.splice(rdnNumber,1);
+  if (tabKanjiFinal.length!==0) {
+    document.querySelector('.Kanji_image').style.display = 'none'
+    Alea();
+  }
+  else if (tabKanjiFinal.length==0 && tabKanjiReview.length!==0) {
+    document.querySelector('.Kanji_image').style.display = 'none';
+    reviewKanji();
+  }
+  else {
+    console.log('There are no Knaji for review');
+    alert("pls click nex game");
+  }
+})
+
