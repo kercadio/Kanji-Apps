@@ -1,0 +1,156 @@
+var tabKanjiFinal, rdnNumber, progress_bar;
+var tabKanjiReview = []; 
+var plop=0; // Value for the progress bar
+
+switch_blocks('starter'); //THIs IS WHAT I ADDED
+
+document.querySelector('.start-btn').addEventListener('click', function (){
+  document.getElementById("myBar").style.width = "0%";
+  var Lesson = document.forms[0];
+  var tabtest = [];
+  var i;
+  plop = 0
+  tabKanjiReview=[];
+  switch_blocks('write-Kanji') //THIs IS WHAT I ADDED
+  document.getElementById('kanji-image').style.display = 'none'; //THIs IS WHAT I ADDED
+  for (i = 0; i < Lesson.length; i++) {
+    if (Lesson[i].checked) {
+      tabtest = tabtest.concat(tabIntermediate[i])}
+  }
+  tabKanjiFinal = tabtest;
+  progress_bar = tabKanjiFinal.length;
+  incr_progress = 100 / progress_bar;
+  Alea();
+})
+
+document.querySelector('.result-btn').addEventListener('click',function print(){
+  switch_blocks('results'); //THIs IS WHAT I ADDED
+  if (tabKanjiFinal.length!==0) {
+    var rdnImage = tabKanjiFinal[rdnNumber].Path;
+    var Kanji_ImageDOM = document.querySelector('.Kanji_image')
+    Kanji_ImageDOM.style.display = 'block';
+    Kanji_ImageDOM.src = rdnImage
+  }
+  else {
+  var Kanji_ImageDOM = document.querySelector('.Kanji_image')
+  Kanji_ImageDOM.style.display = 'block';
+  Kanji_ImageDOM.src = tabKanjiReview[0].Path;
+  tabKanjiReview.shift()
+  }
+})
+
+document.querySelector('.next-btn').addEventListener('click',function (){
+  move(incr_progress);
+  tabKanjiFinal.splice(rdnNumber,1);
+  switch_blocks('write-Kanji') //THIs IS WHAT I ADDED
+  if (tabKanjiFinal.length!==0) {
+    document.querySelector('.Kanji_image').style.display = 'none';
+    Alea();
+  }
+  else if (tabKanjiFinal.length==0 && tabKanjiReview.length!==0) {
+    document.querySelector('.Kanji_image').style.display = 'none';
+    reviewKanji();
+  }
+  else { 
+    switch_blocks('starter'); //THIs IS WHAT I ADDED
+  }
+})
+
+document.querySelector('.addReview-btn').addEventListener('click',function () {
+  switch_blocks('write-Kanji') //THIs IS WHAT I ADDED
+  if (tabKanjiFinal.length!==0) {
+    document.querySelector('.Kanji_image').style.display = 'none' 
+    tabKanjiReview.push(tabKanjiFinal[rdnNumber]);
+    tabKanjiFinal.splice(rdnNumber,1);
+    Alea();
+  }
+  else if (tabKanjiFinal.length==0 && tabKanjiReview.length!==0) {
+    document.querySelector('.Kanji_image').style.display = 'none';
+    tabKanjiReview.push(tabKanjiFinal[0]);
+    reviewKanji();
+  }
+  else {
+    switch_blocks('starter') //THIs IS WHAT I ADDED
+  }
+})
+
+function Alea(){
+  rdnNumber = Math.floor(Math.random()*tabKanjiFinal.length);
+  var rdnRomaji = 'Do the kanji for ' + tabKanjiFinal[rdnNumber].Romaniji;
+  document.getElementById ('romanji').innerHTML = rdnRomaji
+}
+
+
+function reviewKanji(){
+  var reviewRoamnji = 'Do the kanji for ' + tabKanjiReview[0].Romaniji;
+  document.getElementById ('romanji').innerHTML = reviewRoamnji
+}
+
+function move(valu) {
+  var elem = document.getElementById("myBar");
+  console.log(elem.style.width);
+  if (elem.style.width != "100%"){
+    console.log("test");
+    plop = plop + valu;
+    elem.style.width = plop + "%";
+    }
+}
+
+function switch_blocks(x){ //THIs IS WHAT I ADDED
+  switch(x){
+    case 'starter':
+      document.getElementById('chek-lessons').style.display = 'block'; 
+      document.getElementById('texte').style.display = 'block'; 
+      document.getElementById('start-btn').style.display = 'block'; 
+      document.getElementById('image').style.display = 'none'; 
+      document.getElementById('test-bar').style.display = 'none'; 
+      document.getElementById('myProgress').style.display = 'none'; 
+      document.getElementById('romanji').style.display = 'none'; 
+      break;
+    case 'write-Kanji':
+      document.getElementById('chek-lessons').style.display = 'none'; 
+      document.getElementById('texte').style.display = 'block'; 
+      document.getElementById('start-btn').style.display = 'none';
+      document.getElementById('image').style.display = 'block'; 
+      document.getElementById('test-bar').style.display = 'none'; 
+      document.getElementById('myProgress').style.display = 'block'; 
+      document.getElementById('romanji').style.display = 'block'; 
+      document.getElementById('result-btn').style.display = 'block';
+      break;
+    case 'results':
+      document.getElementById('chek-lessons').style.display = 'none'; 
+      document.getElementById('texte').style.display = 'none'; 
+      document.getElementById('start-btn').style.display = 'none'; 
+      document.getElementById('image').style.display = 'block'; 
+      document.getElementById('test-bar').style.display = 'block'; 
+      document.getElementById('myProgress').style.display = 'block'; 
+      document.getElementById('romanji').style.display = 'none';
+      document.getElementById('result-btn').style.display = 'none'; 
+      break;
+  }
+}
+
+/*
+
+var progress=0
+function fillProgressBar(valu){
+  var circle = document.getElementById('progress-circle').getContext('2d');
+  var diff = ((progress/100) * Math.PI*2*10);
+  circle.clearRect(0,0,175,175);
+  //circle.textAlign = "center"
+  circle.lineWidth = 18;
+  circle.fillStyle = '#fff';
+  circle.strokeStyle = '#808080'; 
+  circle.fillText(progress,98,78);
+  circle.font = '25px Verdana' ;
+  circle.beginPath();
+  circle.arc(90,100,90,4.72,diff/10+4.72); //4.72 is for starting top center
+  circle.stroke();
+  if (progress >= 80){
+    clearTimeout(fill);
+  }
+  progress++;
+}
+var fill = setInterval(fillProgressBar,50);
+
+*/
